@@ -1,4 +1,5 @@
-const percentFormaters = new Intl.NumberFormat('ru-RU', {style: 'percent', maximumFractionDigits: 3});
+const percentFormaters = new Intl.NumberFormat('uk-UA', {style: 'percent', maximumFractionDigits: 3});
+const priceFormater = new Intl.NumberFormat('uk-UA', {style:'currency', currency: 'UAH', maximumFractionDigits: 2})
 
 const programBase = 0.12;
 const programIt = 0.047;
@@ -11,6 +12,8 @@ const inputCost = document.querySelector('#input-cost')
 const inputDownPaymant = document.querySelector('#input-downpayment')
 const inputTerm = document.querySelector('#input-term')
 
+const form = document.querySelector('#form')
+const totalCost = document.querySelector('#total-cost')
 
 
 document.querySelector('#base-value').value = programBase
@@ -40,12 +43,23 @@ const cleavePriceSettings = {
     delimiter: ' '
 }
 
+const cleavePriceSettingsDol = {
+    numeral: true,
+    numeralThousandsGroupStyle: 'thousand',
+    delimiter: ' ',
+    prefix: '$'
+}
+
 
 const cleaveCost = new Cleave(inputCost, cleavePriceSettings);
 
 const cleaveDownPaymaent = new Cleave(inputDownPaymant, cleavePriceSettings);
 
-
+form.addEventListener('input', function () {
+    const totalAmount = +cleaveCost.getRawValue() - cleaveDownPaymaent.getRawValue()
+    console.log(totalAmount)
+    totalCost.innerText = priceFormater.format( totalAmount);
+})
 
 
 
