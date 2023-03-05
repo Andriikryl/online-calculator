@@ -69,6 +69,12 @@ form.addEventListener('input', function () {
 })
 
 function calkMortgage () {
+
+    // let cost = +cleaveCost.getRawValue()
+    // if(cost > 100000) {
+    //     cost = 100000
+    // }
+
     const totalAmount = +cleaveCost.getRawValue() - cleaveDownPaymaent.getRawValue()
     totalCost.innerText = priceFormater.format( totalAmount);
     
@@ -101,8 +107,7 @@ noUiSlider.create(sliderCost, {
     }
 });
 
-sliderCost.noUiSlider.on('update', function () {
-
+sliderCost.noUiSlider.on('slide', function () {
     const sliderValue = parseInt(sliderCost.noUiSlider.get(true))
     cleaveCost.setRawValue(sliderValue)
     calkMortgage()
@@ -111,12 +116,86 @@ sliderCost.noUiSlider.on('update', function () {
 
 
 
+const sliderDownPayment = document.getElementById('slider-downpayment');
+
+noUiSlider.create(sliderDownPayment, {
+    start: 6000000,
+    connect: 'lower',
+    // tooltips: true,
+    step: 100000,
+    range: {
+        'min': 0,
+        'max': 10000000
+    }
+});
+
+sliderDownPayment.noUiSlider.on('slide', function () {
+    const sliderValue = parseInt(sliderDownPayment.noUiSlider.get(true))
+    cleaveDownPaymaent.setRawValue(sliderValue)
+    calkMortgage()
+})
+
+
+const sliderTerm = document.getElementById('slider-term');
+
+noUiSlider.create(sliderTerm, {
+    start: 1,
+    connect: 'lower',
+    // tooltips: true,
+    step: 1,
+    range: {
+        'min': 1,
+        'max': 30,
+    }
+});
+
+sliderTerm.noUiSlider.on('slide', function () {
+    const sliderValue = parseInt(sliderTerm.noUiSlider.get(true))
+    cleaveTerm.setRawValue(sliderValue)
+    calkMortgage()
+})
+
+
+inputCost.addEventListener('input', function () {
+
+    const value = +cleaveCost.getRawValue()
+
+    sliderCost.noUiSlider.set(value)
+
+    if(value > 10000000){
+        inputCost.closest('.param__details').classList.add('param__details--error')
+    }
+
+    if(value <= 10000000){
+        inputCost.closest('.param__details').classList.remove('param__details--error')
+    }
+
+    const percentMin = value * 0.15;
+    const percentMax = value * 0.90;
+
+    sliderDownPayment.noUiSlider.updateOptions({
+        range: {
+            min: percentMin,
+            max: percentMax,
+        }
+    })
+
+})
 
 
 
+inputCost.addEventListener('change', function () {
+
+    const value = +cleaveCost.getRawValue()
 
 
 
+    if(value <= 10000000){
+        inputCost.closest('.param__details').classList.remove('param__details--error');
+        cleaveCost.setRawValue(10000000)
+    }
+
+})
 
 
 
