@@ -1,3 +1,5 @@
+// const Cleave = require("cleave.js");
+
 const percentFormaters = new Intl.NumberFormat('uk-UA', {style: 'percent', maximumFractionDigits: 3});
 const priceFormater = new Intl.NumberFormat('uk-UA', {style:'currency', currency: 'UAH', maximumFractionDigits: 2})
 
@@ -14,6 +16,7 @@ const inputTerm = document.querySelector('#input-term')
 
 const form = document.querySelector('#form')
 const totalCost = document.querySelector('#total-cost')
+const totalMonthPayment = document.querySelector('#total-month-payment')
 
 
 document.querySelector('#base-value').value = programBase
@@ -55,12 +58,31 @@ const cleaveCost = new Cleave(inputCost, cleavePriceSettings);
 
 const cleaveDownPaymaent = new Cleave(inputDownPaymant, cleavePriceSettings);
 
+const cleaveTerm = new Cleave(inputTerm, cleavePriceSettings)
+
+calkMortgage()
+
 form.addEventListener('input', function () {
-    const totalAmount = +cleaveCost.getRawValue() - cleaveDownPaymaent.getRawValue()
-    console.log(totalAmount)
-    totalCost.innerText = priceFormater.format( totalAmount);
+    calkMortgage()
 })
 
+function calkMortgage () {
+    const totalAmount = +cleaveCost.getRawValue() - cleaveDownPaymaent.getRawValue()
+    totalCost.innerText = priceFormater.format( totalAmount);
+    
+    const creditRate = +document.querySelector('input[name="program"]:checked').value;
+
+    const monthRate = creditRate / 12
+
+    const years = +cleaveTerm.getRawValue()
+    
+    const month = years * 12;
+
+    const monthPayment = (totalAmount * monthRate) / 1 - (1 + monthRate) * (1 - month)
+
+    totalMonthPayment.innerText = monthPayment
+    // const morgegeTermYears = document.querySelector('#input-term').value;
+}
 
 
 
