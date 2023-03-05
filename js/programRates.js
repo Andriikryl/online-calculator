@@ -7,7 +7,9 @@ const programZero = 0.108;
 
 const programInputs = document.querySelectorAll('input[name="program"]')
 const totalPersent = document.querySelector("#total-percent")
-
+const inputCost = document.querySelector('#input-cost')
+const inputDownPaymant = document.querySelector('#input-downpayment')
+const inputTerm = document.querySelector('#input-term')
 
 
 
@@ -25,13 +27,37 @@ document.querySelector('#zero-text').innerText = percentFormaters.format(program
 
 programInputs.forEach((input) => {
     if(input.checked){
-        
         // totalPersent.innerText = percentFormaters.format(this.value)
     }
     input.addEventListener('click', function() {
         totalPersent.innerText = percentFormaters.format(this.value)
     })
 })
+
+const cleavePriceSettings = {
+    numeral: true,
+    numeralThousandsGroupStyle: 'thousand',
+    delimiter: ' '
+}
+
+
+const cleaveCost = new Cleave(inputCost, cleavePriceSettings);
+
+const cleaveDownPaymaent = new Cleave(inputDownPaymant, cleavePriceSettings);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
