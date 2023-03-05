@@ -1,7 +1,9 @@
 // const Cleave = require("cleave.js");
 
 const percentFormaters = new Intl.NumberFormat('uk-UA', {style: 'percent', maximumFractionDigits: 3});
-const priceFormater = new Intl.NumberFormat('uk-UA', {style:'currency', currency: 'UAH', maximumFractionDigits: 2})
+const priceFormater = new Intl.NumberFormat('uk-UA', {style:'currency', currency: 'UAH', maximumFractionDigits: 0})
+const priceFormaterDecimals = new Intl.NumberFormat('uk-UA', {style:'currency', currency: 'UAH', maximumFractionDigits: 2})
+
 
 const programBase = 0.12;
 const programIt = 0.047;
@@ -78,14 +80,33 @@ function calkMortgage () {
     
     const month = years * 12;
 
-    const monthPayment = (totalAmount * monthRate) / 1 - (1 + monthRate) * (1 - month)
+    const monthPayment = (totalAmount * monthRate) / (1 - (1 + monthRate) * (1 - month))
 
-    totalMonthPayment.innerText = monthPayment
+    totalMonthPayment.innerText = priceFormaterDecimals.format( monthPayment)
     // const morgegeTermYears = document.querySelector('#input-term').value;
 }
 
 
+const sliderCost = document.getElementById('slider-cost');
 
+noUiSlider.create(sliderCost, {
+    start: 10000000,
+    connect: 'lower',
+    // tooltips: true,
+    step: 100000,
+    range: {
+        'min': 0,
+        '50%': [10000000, 1000000],
+        'max': 1000000000
+    }
+});
+
+sliderCost.noUiSlider.on('update', function () {
+
+    const sliderValue = parseInt(sliderCost.noUiSlider.get(true))
+    cleaveCost.setRawValue(sliderValue)
+    calkMortgage()
+})
 
 
 

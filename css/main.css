@@ -237,6 +237,10 @@ body {
 
 /* Sliders */
 
+#slider-cost{
+	height: 8px;
+}
+
 #slider-cost,
 #slider-cost .noUi-handle {
     box-shadow: none;
@@ -249,7 +253,7 @@ body {
 }
 
 #slider-cost .noUi-connect {
-    background: #21bb57;
+    background: #d4a373;
 }
 
 #slider-cost .noUi-handle {
@@ -257,7 +261,7 @@ body {
     width: 20px;
     top: -7px;
     right: -10px; /* half the width */
-    border-radius: 50%;
+    border-radius: 20px;
 	background-color: #fff;
 	box-shadow: 0 1px 4px rgb(36 38 41 / 24%);
 	cursor: pointer;
